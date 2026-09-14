@@ -1,133 +1,158 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  ArrowRight, ClipboardList, Search, FileText, Code2, CheckCircle2,
+import { 
+  FileText, 
+  MessageSquare, 
+  Code, 
+  CheckCircle2, 
+  Rocket, 
+  Sparkles, 
+  ArrowRight 
 } from 'lucide-react';
-import { processSteps } from '@/data/process';
 
-const stepIcons = [ClipboardList, Search, FileText, Code2, CheckCircle2];
+interface Step {
+  number: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  icon: React.ElementType;
+  highlights: string[];
+}
+
+const steps: Step[] = [
+  {
+    number: '01',
+    title: 'Submit Project Request',
+    subtitle: 'Share your requirements',
+    description: 'Fill out our quick project request form with your scope, target tech stack, features, and target completion date.',
+    icon: FileText,
+    highlights: ['Detailed scope submission', 'Tech stack selection', 'Timeline definition'],
+  },
+  {
+    number: '02',
+    title: 'Requirement Review & Quote',
+    subtitle: 'Transparent scope analysis',
+    description: 'We review your submission, clarify functional requirements, and provide a detailed timeline breakdown with a transparent quote.',
+    icon: MessageSquare,
+    highlights: ['Architecture breakdown', 'Transparent pricing', 'Direct consultation'],
+  },
+  {
+    number: '03',
+    title: 'Iterative Development',
+    subtitle: 'Real-time progress tracking',
+    description: 'Watch your system come to life via your personal student dashboard with live milestones, task updates, and code previews.',
+    icon: Code,
+    highlights: ['Live dashboard updates', 'Milestone tracking', 'Clean codebase standards'],
+  },
+  {
+    number: '04',
+    title: 'Review & Testing',
+    subtitle: 'Quality assurance',
+    description: 'We run end-to-end testing and walk you through a live demonstration of the complete software system to ensure every requirement is met.',
+    icon: CheckCircle2,
+    highlights: ['Live interactive demo', 'Bug fixes & refinements', 'System walkthrough'],
+  },
+  {
+    number: '05',
+    title: 'Final Handover & Support',
+    subtitle: 'Deployment & setup',
+    description: 'Receive full source code access, setup documentation, database scripts, and support to ensure seamless execution on your local machine.',
+    icon: Rocket,
+    highlights: ['Complete source code', 'Comprehensive documentation', 'Post-handover support'],
+  },
+];
 
 export function HowItWorks() {
   return (
-    <div>
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-navy-900 text-white">
-        <div className="absolute inset-0 bg-grid-pattern opacity-30" />
-        <div className="absolute -top-40 right-0 h-96 w-96 rounded-full bg-electric-600/20 blur-3xl" />
-        <div className="absolute bottom-0 left-0 h-96 w-96 rounded-full bg-electric-500/10 blur-3xl" />
-
-        <div className="section relative py-20 lg:py-28">
-          <div className="max-w-3xl animate-fade-in-up">
-            <div className="inline-flex items-center gap-2 rounded-full border border-electric-500/30 bg-electric-500/10 px-4 py-1.5 text-sm font-medium text-electric-300">
-              <ArrowRight className="h-4 w-4" />
-              The Process
-            </div>
-            <h1 className="mt-6 text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-              How It{' '}
-              <span className="bg-gradient-to-r from-electric-400 to-electric-200 bg-clip-text text-transparent">
-                Works
-              </span>
-            </h1>
-            <p className="mt-6 text-lg text-navy-300 max-w-2xl">
-              A clear, transparent 5-step process that takes your project from an idea to a tested, presentable system. Every step is designed to keep you informed and confident.
-            </p>
+    <div className="bg-slate-950 text-slate-100 min-h-screen py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Page Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16 pt-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>5-Step Process</span>
           </div>
+          <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-4">
+            From Idea to Handover
+          </h1>
+          <p className="text-slate-400 text-base sm:text-lg">
+            A clear, transparent process that takes your system from initial requirements to a fully tested, production-grade application.
+          </p>
         </div>
-      </section>
 
-      {/* Process Timeline */}
-      <section className="bg-white py-16 lg:py-20">
-        <div className="section">
-          <div className="text-center">
-            <span className="badge-electric">5-Step Process</span>
-            <h2 className="mt-4 heading-2">From Idea to Handover</h2>
-            <p className="mt-3 text-lg text-muted max-w-2xl mx-auto">
-              Every project follows the same transparent path — no surprises, no hidden steps.
-            </p>
-          </div>
+        {/* Steps Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          {steps.map((step, index) => {
+            const Icon = step.icon;
+            return (
+              <div
+                key={step.number}
+                className="bg-slate-900 border border-slate-800 rounded-2xl p-8 hover:border-slate-700 transition-all relative flex flex-col justify-between group"
+              >
+                {/* Step Number Badge */}
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center font-bold">
+                    <Icon className="w-6 h-6" />
+                  </div>
+                  <span className="text-3xl font-black text-slate-700 group-hover:text-blue-500/40 transition-colors">
+                    {step.number}
+                  </span>
+                </div>
 
-          {/* Desktop: Horizontal timeline */}
-          <div className="mt-16 hidden lg:block">
-            <div className="relative">
-              {/* Horizontal connecting line */}
-              <div className="absolute top-10 left-[10%] right-[10%] h-0.5 bg-gradient-to-r from-electric-500 via-electric-400 to-electric-500" />
+                {/* Content */}
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-1">
+                    {step.title}
+                  </h3>
+                  <p className="text-xs text-blue-400 font-medium mb-4">
+                    {step.subtitle}
+                  </p>
+                  <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                    {step.description}
+                  </p>
+                </div>
 
-              <div className="grid grid-cols-5 gap-4">
-                {processSteps.map((step, i) => {
-                  const Icon = stepIcons[i] ?? ClipboardList;
-                  return (
-                    <div
-                      key={step.step}
-                      className="relative flex flex-col items-center text-center animate-fade-in-up"
-                      style={{ animationDelay: `${i * 120}ms` }}
-                    >
-                      {/* Step number circle */}
-                      <div className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-electric-500 to-electric-700 text-white shadow-lg shadow-electric-600/30 ring-4 ring-white">
-                        <Icon className="h-8 w-8" />
-                      </div>
-                      <span className="mt-4 text-sm font-bold text-electric-600">{step.step}</span>
-                      <h3 className="mt-1 heading-3">{step.title}</h3>
-                      <p className="mt-2 text-sm text-muted">{step.description}</p>
-                    </div>
-                  );
-                })}
+                {/* Bullet Checklist */}
+                <div className="pt-4 border-t border-slate-800/80">
+                  <ul className="space-y-2">
+                    {step.highlights.map((item, idx) => (
+                      <li key={idx} className="flex items-center gap-2 text-xs text-slate-300">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
-          </div>
+            );
+          })}
 
-          {/* Mobile: Vertical timeline */}
-          <div className="mt-12 lg:hidden">
-            <div className="relative">
-              {/* Vertical connecting line */}
-              <div className="absolute left-9 top-0 bottom-0 w-0.5 bg-gradient-to-b from-electric-500 via-electric-400 to-electric-500" />
-
-              <div className="space-y-8">
-                {processSteps.map((step, i) => {
-                  const Icon = stepIcons[i] ?? ClipboardList;
-                  return (
-                    <div
-                      key={step.step}
-                      className="relative flex gap-6 animate-fade-in-up"
-                      style={{ animationDelay: `${i * 120}ms` }}
-                    >
-                      {/* Step number circle */}
-                      <div className="relative z-10 flex h-18 w-18 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-electric-500 to-electric-700 text-white shadow-lg shadow-electric-600/30 ring-4 ring-white" style={{ width: '4.5rem', height: '4.5rem' }}>
-                        <Icon className="h-7 w-7" />
-                      </div>
-                      <div className="flex-1 pt-2">
-                        <span className="text-sm font-bold text-electric-600">{step.step}</span>
-                        <h3 className="mt-1 text-lg font-semibold text-navy-900">{step.title}</h3>
-                        <p className="mt-2 text-sm text-muted">{step.description}</p>
-                      </div>
-                    </div>
-                  );
-                })}
+          {/* CTA Card as the 6th Grid Slot */}
+          <div className="bg-gradient-to-br from-blue-900/40 via-slate-900 to-slate-900 border border-blue-500/30 rounded-2xl p-8 flex flex-col justify-between">
+            <div>
+              <div className="w-12 h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold mb-6 shadow-lg shadow-blue-600/30">
+                <Rocket className="w-6 h-6" />
               </div>
+              <h3 className="text-2xl font-bold text-white mb-2">Ready to Build?</h3>
+              <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                Submit your project specifications today and get an architecture roadmap with a quick turn-around.
+              </p>
             </div>
+            
+            <Link
+              to="/request-project"
+              className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/20 text-sm"
+            >
+              <span>Start Your Project</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
-      </section>
 
-      {/* CTA */}
-      <section className="bg-navy-900 py-16 lg:py-20">
-        <div className="section-sm text-center">
-          <div className="absolute inset-0 bg-grid-pattern opacity-20" />
-          <div className="relative">
-            <h2 className="heading-2 text-white">Ready to Start?</h2>
-            <p className="mt-4 text-lg text-navy-300">
-              Submit your project requirements and begin the process today. No obligation to proceed.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row justify-center">
-              <Link to="/request-project" className="btn-primary btn-lg">
-                Request Your Project
-                <ArrowRight className="h-5 w-5" />
-              </Link>
-              <Link to="/contact" className="btn btn-lg border-2 border-navy-600 text-white hover:border-electric-400 hover:bg-navy-800">
-                Ask a Question
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      </div>
     </div>
   );
 }
+
+export default HowItWorks;

@@ -1,107 +1,92 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, Sparkles } from 'lucide-react';
-import { services } from '@/data/services';
+import { 
+  Code2, 
+  Database, 
+  Cpu, 
+  ShieldCheck, 
+  Sparkles, 
+  ArrowRight,
+  CheckCircle2
+} from 'lucide-react';
 
 export function Services() {
+  const servicesList = [
+    {
+      title: 'Full-Stack Web Applications',
+      tag: 'Web / SaaS',
+      description: 'End-to-end web platforms built with React, Next.js, Node.js, and modern CSS frameworks.',
+      image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80',
+      techs: ['React', 'Next.js', 'Tailwind CSS', 'Node.js']
+    },
+    {
+      title: 'Database Architecture & APIs',
+      tag: 'Backend / DB',
+      description: 'Scalable relational database schemas, RESTful API design, and authentication flows.',
+      image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80',
+      techs: ['PostgreSQL', 'Supabase', 'Python', 'FastAPI']
+    },
+    {
+      title: 'AI & Data Science Projects',
+      tag: 'AI / Analytics',
+      description: 'Machine learning model integration, data visualization dashboards, and predictive analysis.',
+      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
+      techs: ['Python', 'scikit-learn', 'Pandas', 'Chart.js']
+    }
+  ];
+
   return (
-    <div>
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-navy-900 text-white">
-        <div className="absolute inset-0 bg-grid-pattern opacity-30" />
-        <div className="absolute -top-40 right-0 h-96 w-96 rounded-full bg-electric-600/20 blur-3xl" />
-        <div className="absolute bottom-0 left-0 h-96 w-96 rounded-full bg-electric-500/10 blur-3xl" />
-
-        <div className="section relative py-20 lg:py-28">
-          <div className="max-w-3xl animate-fade-in-up">
-            <div className="inline-flex items-center gap-2 rounded-full border border-electric-500/30 bg-electric-500/10 px-4 py-1.5 text-sm font-medium text-electric-300">
-              <Sparkles className="h-4 w-4" />
-              What We Offer
-            </div>
-            <h1 className="mt-6 text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-              Services
-            </h1>
-            <p className="mt-6 text-lg text-navy-300 max-w-2xl">
-              Professional software development and technical support for IT, Computer Science and technology students.
-            </p>
+    <div className="bg-slate-950 text-slate-100 min-h-screen py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Unified Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16 pt-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>What We Offer</span>
           </div>
-        </div>
-      </section>
-
-      {/* Services grid */}
-      <section className="bg-navy-50 py-16 lg:py-20">
-        <div className="section">
-          <div className="text-center">
-            <span className="badge-electric">Our Services</span>
-            <h2 className="mt-4 heading-2">Comprehensive Development & Support</h2>
-            <p className="mt-3 text-lg text-muted max-w-2xl mx-auto">
-              From building your system from scratch to debugging, testing, and preparing for demonstration — we cover every stage of your project.
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((service, i) => {
-              const Icon = service.icon;
-              return (
-                <div
-                  key={service.id}
-                  className="card-hover group flex flex-col p-6 animate-fade-in-up"
-                  style={{ animationDelay: `${i * 60}ms` }}
-                >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-electric-50 text-electric-600 transition-colors group-hover:bg-electric-600 group-hover:text-white">
-                    <Icon className="h-6 w-6" />
-                  </div>
-
-                  <h3 className="mt-4 text-lg font-semibold text-navy-900">
-                    {service.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-muted">{service.description}</p>
-
-                  {/* Technologies */}
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {service.technologies.map((tech) => (
-                      <span key={tech} className="badge-electric">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Features */}
-                  <ul className="mt-5 space-y-2 border-t border-navy-100 pt-4">
-                    {service.features.map((feature) => (
-                      <li
-                        key={feature}
-                        className="flex items-center gap-2 text-sm text-navy-700"
-                      >
-                        <CheckCircle2 className="h-4 w-4 shrink-0 text-accent-500" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="bg-white py-16 lg:py-20">
-        <div className="section-sm text-center">
-          <h2 className="heading-2">Ready to Build Your Project?</h2>
-          <p className="mt-4 text-lg text-muted">
-            Submit your project requirements and receive a customized quotation. No obligation to proceed.
+          <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-4">
+            Our Development Services
+          </h1>
+          <p className="text-slate-400 text-base sm:text-lg">
+            Professional software development and technical support tailored to your project requirements.
           </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row justify-center">
-            <Link to="/request-project" className="btn-primary btn-lg">
-              Request Your Project
-              <ArrowRight className="h-5 w-5" />
-            </Link>
-            <Link to="/contact" className="btn-outline btn-lg">
-              Request a Quote
-            </Link>
-          </div>
         </div>
-      </section>
+
+        {/* Services Showcase Cards */}
+        <div className="grid md:grid-cols-3 gap-8 mb-20">
+          {servicesList.map((service, index) => (
+            <div key={index} className="bg-slate-900 border border-slate-800/80 rounded-2xl overflow-hidden hover:border-slate-700 transition-all flex flex-col">
+              <div className="h-48 overflow-hidden relative">
+                <img 
+                  src={service.image} 
+                  alt={service.title} 
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                />
+                <span className="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-blue-400 text-xs font-semibold px-3 py-1 rounded-full border border-slate-800">
+                  {service.tag}
+                </span>
+              </div>
+              <div className="p-6 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-2">{service.title}</h3>
+                  <p className="text-slate-400 text-sm leading-relaxed mb-6">{service.description}</p>
+                </div>
+                <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-800/80">
+                  {service.techs.map((tech, idx) => (
+                    <span key={idx} className="bg-slate-800 text-slate-300 text-xs px-2.5 py-1 rounded-md font-medium">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+      </div>
     </div>
   );
 }
+
+export default Services;

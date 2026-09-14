@@ -1,10 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from '@/context/AuthContext';
+
+// Layouts & Protection Routes
 import { PublicLayout } from '@/components/layout/PublicLayout';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { ProtectedRoute } from '@/components/layout/ProtectedRoute';
 import { RoleRoute } from '@/components/layout/RoleRoute';
 
+// Public Pages
 import { Home } from '@/pages/Home';
 import { About } from '@/pages/About';
 import { Services } from '@/pages/Services';
@@ -21,6 +24,7 @@ import { AdminLogin } from '@/pages/AdminLogin';
 import { RequestProject } from '@/pages/RequestProject';
 import { NotFound } from '@/pages/NotFound';
 
+// Student Dashboard Pages
 import { StudentDashboard } from '@/pages/student/StudentDashboard';
 import { MyProject } from '@/pages/student/MyProject';
 import { Milestones } from '@/pages/student/Milestones';
@@ -32,6 +36,7 @@ import { Payments } from '@/pages/student/Payments';
 import { Support } from '@/pages/student/Support';
 import { Profile } from '@/pages/student/Profile';
 
+// Admin Dashboard Pages
 import { AdminDashboard } from '@/pages/admin/AdminDashboard';
 import { Requests } from '@/pages/admin/Requests';
 import { Projects } from '@/pages/admin/Projects';
@@ -68,15 +73,10 @@ function App() {
             <Route path="/request-project" element={<RequestProject />} />
           </Route>
 
-          {/*
-            Hidden admin entry point — intentionally NOT rendered inside PublicLayout
-            (no navbar/footer link points here) and NOT reachable via sign-up. Admin
-            accounts are provisioned from the backend (see supabase/make-admin.sql)
-            and the credentials are handed to the admin directly; this page only
-            accepts sign-in for an account already flagged as "admin".
-          */}
+          {/* Hidden Admin Entry Point */}
           <Route path="/admin/login" element={<AdminLogin />} />
 
+          {/* Protected Student Routes */}
           <Route element={<ProtectedRoute redirectTo="/login" />}>
             <Route element={<RoleRoute allow="student" />}>
               <Route path="/student" element={<DashboardLayout variant="student" />}>
@@ -94,6 +94,7 @@ function App() {
             </Route>
           </Route>
 
+          {/* Protected Admin Routes */}
           <Route element={<ProtectedRoute redirectTo="/admin/login" />}>
             <Route element={<RoleRoute allow="admin" />}>
               <Route path="/admin" element={<DashboardLayout variant="admin" />}>

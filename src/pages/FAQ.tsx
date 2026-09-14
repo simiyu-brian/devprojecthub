@@ -1,127 +1,122 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, MessageSquare } from 'lucide-react';
-import { faqs } from '@/data/faqs';
+import { Sparkles, ChevronDown, HelpCircle, MessageSquare } from 'lucide-react';
+
+interface FAQItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const faqs: FAQItem[] = [
+  {
+    id: '1',
+    question: 'How much does a project cost?',
+    answer: 'Project development starts from KSh 4,000+. The final quotation depends on the project scope, technical complexity, required integrations, deadline, and target stack requirements.',
+  },
+  {
+    id: '2',
+    question: 'How long does it take to complete a project?',
+    answer: 'Timeline varies by project size. Simple web pages or small databases take 3-5 days, while full-stack web or mobile applications typically take 1-2 weeks depending on key requirements.',
+  },
+  {
+    id: '3',
+    question: 'What is included in the project handover?',
+    answer: 'You receive full access to the source code repository, clean setup documentation, database scripts/schemas, environment variable configurations, and a live demonstration walkthrough.',
+  },
+  {
+    id: '4',
+    question: 'Can I track the progress of my project in real-time?',
+    answer: 'Yes! Once logged into your student dashboard, you can view live project status updates, completed milestone checklists, task boards, uploaded files, and system messages.',
+  },
+  {
+    id: '5',
+    question: 'Do you offer post-project support and fixes?',
+    answer: 'Absolutely. Every handover includes post-delivery support to fix any deployment bugs or assist with local machine installation and execution.',
+  },
+];
 
 export function FAQ() {
-  const [openId, setOpenId] = useState<string | null>(faqs[0]?.id ?? null);
+  const [openId, setOpenId] = useState<string | null>('1');
 
-  const toggle = (id: string) => {
-    setOpenId((prev) => (prev === id ? null : id));
+  const toggleAccordion = (id: string) => {
+    setOpenId(openId === id ? null : id);
   };
 
   return (
-    <div>
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-navy-900 text-white">
-        <div className="absolute inset-0 bg-grid-pattern opacity-30" />
-        <div className="absolute -top-40 right-0 h-96 w-96 rounded-full bg-electric-600/20 blur-3xl" />
-        <div className="absolute bottom-0 left-0 h-96 w-96 rounded-full bg-electric-500/10 blur-3xl" />
-
-        <div className="section relative py-20 lg:py-28 text-center">
-          <div className="animate-fade-in-up">
-            <div className="inline-flex items-center gap-2 rounded-full border border-electric-500/30 bg-electric-500/10 px-4 py-1.5 text-sm font-medium text-electric-300">
-              <MessageSquare className="h-4 w-4" />
-              Questions & Answers
-            </div>
-            <h1 className="mt-6 text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-              Frequently Asked Questions
-            </h1>
-            <p className="mt-4 text-lg text-navy-300 max-w-2xl mx-auto">
-              Everything you need to know about working with me. Can't find the
-              answer you're looking for? Feel free to reach out.
-            </p>
+    <div className="bg-slate-950 text-slate-100 min-h-screen py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Page Header */}
+        <div className="text-center max-w-2xl mx-auto mb-16 pt-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>Got Questions?</span>
           </div>
+          <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-4">
+            Frequently Asked Questions
+          </h1>
+          <p className="text-slate-400 text-base sm:text-lg">
+            Everything you need to know about starting, tracking, and receiving your project deliverables.
+          </p>
         </div>
-      </section>
 
-      {/* FAQ list */}
-      <section className="bg-navy-50 py-16 lg:py-20">
-        <div className="section-sm">
-          <div className="mx-auto max-w-3xl">
-            <div className="space-y-4">
-              {faqs.map((faq, i) => {
-                const isOpen = openId === faq.id;
-                return (
-                  <div
-                    key={faq.id}
-                    className={`card overflow-hidden transition-all duration-200 ${
-                      isOpen ? 'border-electric-200 shadow-md' : ''
+        {/* Accordion List */}
+        <div className="space-y-4 mb-16">
+          {faqs.map((faq, index) => {
+            const isOpen = openId === faq.id;
+            return (
+              <div
+                key={faq.id}
+                className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-700 transition-all"
+              >
+                <button
+                  onClick={() => toggleAccordion(faq.id)}
+                  className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-semibold text-white focus:outline-none"
+                >
+                  <span className="flex items-center gap-3 text-base sm:text-lg">
+                    <span className="text-xs font-bold px-2.5 py-1 rounded-lg bg-blue-600/10 text-blue-400 border border-blue-500/20">
+                      0{index + 1}
+                    </span>
+                    {faq.question}
+                  </span>
+                  <ChevronDown
+                    className={`w-5 h-5 text-slate-400 shrink-0 transition-transform duration-200 ${
+                      isOpen ? 'rotate-180 text-blue-400' : ''
                     }`}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => toggle(faq.id)}
-                      aria-expanded={isOpen}
-                      aria-controls={`faq-answer-${faq.id}`}
-                      className="flex w-full items-center justify-between gap-4 p-5 text-left transition-colors hover:bg-navy-50/50"
-                    >
-                      <span className="flex items-center gap-3">
-                        <span
-                          className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg text-sm font-bold transition-colors ${
-                            isOpen
-                              ? 'bg-electric-600 text-white'
-                              : 'bg-electric-50 text-electric-600'
-                          }`}
-                        >
-                          {String(i + 1).padStart(2, '0')}
-                        </span>
-                        <span className="text-base font-semibold text-navy-900 sm:text-lg">
-                          {faq.question}
-                        </span>
-                      </span>
-                      <ChevronDown
-                        className={`h-5 w-5 flex-shrink-0 text-electric-600 transition-transform duration-200 ${
-                          isOpen ? 'rotate-180' : ''
-                        }`}
-                      />
-                    </button>
+                  />
+                </button>
 
-                    <div
-                      id={`faq-answer-${faq.id}`}
-                      className={`grid transition-all duration-200 ease-in-out ${
-                        isOpen
-                          ? 'grid-rows-[1fr] opacity-100'
-                          : 'grid-rows-[0fr] opacity-0'
-                      }`}
-                    >
-                      <div className="overflow-hidden">
-                        <p className="px-5 pb-5 pl-16 text-muted">
-                          {faq.answer}
-                        </p>
-                      </div>
-                    </div>
+                {isOpen && (
+                  <div className="px-6 pb-6 pt-1 text-slate-400 text-sm leading-relaxed border-t border-slate-800/60 mt-1">
+                    {faq.answer}
                   </div>
-                );
-              })}
-            </div>
-          </div>
+                )}
+              </div>
+            );
+          })}
         </div>
-      </section>
 
-      {/* CTA */}
-      <section className="bg-white py-16 lg:py-20">
-        <div className="section-sm">
-          <div className="card border-electric-200 bg-gradient-to-br from-electric-50 to-white p-8 text-center sm:p-12">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-electric-600 text-white shadow-lg shadow-electric-600/30">
-              <MessageSquare className="h-7 w-7" />
-            </div>
-            <h2 className="mt-6 heading-2">Still have questions? Contact me</h2>
-            <p className="mt-4 text-lg text-muted max-w-2xl mx-auto">
-              If you couldn't find the answer to your question, I'm happy to
-              help. Reach out and I'll get back to you as soon as possible.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row justify-center">
-              <Link to="/contact" className="btn-primary btn-lg">
-                Contact Me
-              </Link>
-              <Link to="/request-project" className="btn-outline btn-lg">
-                Request a Project
-              </Link>
-            </div>
+        {/* Support CTA Box */}
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 text-center flex flex-col items-center">
+          <div className="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4">
+            <MessageSquare className="w-6 h-6" />
           </div>
+          <h3 className="text-xl font-bold text-white mb-2">Still have questions?</h3>
+          <p className="text-slate-400 text-sm max-w-md mb-6">
+            If you couldn’t find an answer here, reach out directly or submit your project details to get a customized proposal.
+          </p>
+          <Link
+            to="/contact"
+            className="inline-flex items-center justify-center px-6 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-500 transition-all text-xs shadow-lg shadow-blue-600/20"
+          >
+            Contact Support
+          </Link>
         </div>
-      </section>
+
+      </div>
     </div>
   );
 }
+
+export default FAQ;

@@ -1,371 +1,232 @@
-import { useState, useRef, FormEvent, ChangeEvent } from 'react';
-import { Link } from 'react-router-dom';
-import {
-  User, Mail, Phone, GraduationCap, FileText, Send, CheckCircle2, AlertCircle,
+import React, { useState } from 'react';
+import { 
+  Send, 
+  Sparkles, 
+  User, 
+  Mail, 
+  Phone, 
+  GraduationCap, 
+  Code, 
+  Calendar, 
+  FileText, 
+  CheckCircle2 
 } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
-
-interface FormState {
-  fullName: string;
-  email: string;
-  phone: string;
-  institution: string;
-  projectType: string;
-  description: string;
-  budget: string;
-  deadline: string;
-  duration: string;
-  website: string; // honeypot — real visitors never see or fill this
-}
-
-const initialForm: FormState = {
-  fullName: '',
-  email: '',
-  phone: '',
-  institution: '',
-  projectType: '',
-  description: '',
-  budget: '',
-  deadline: '',
-  duration: '',
-  website: '',
-};
-
-const projectTypes = [
-  'Web Application',
-  'Mobile App',
-  'Desktop System',
-  'Data / ML Project',
-  'API / Backend',
-  'Other',
-];
-
-const durationOptions = [
-  'Less than 1 week',
-  '1 - 2 weeks',
-  '2 - 4 weeks',
-  '1 - 2 months',
-  '2+ months',
-  'Not sure yet',
-];
 
 export function RequestProject() {
-  const [form, setForm] = useState<FormState>(initialForm);
-  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const mountedAt = useRef(Date.now());
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    institution: '',
+    projectType: 'web',
+    deadline: '',
+    budget: '',
+    description: '',
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle submission logic here
+    setSubmitted(true);
+  };
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(null);
-
-    // Honeypot: real visitors never see or fill this field. Bots that auto-fill every
-    // input on the page do. If it's filled, pretend to succeed and drop the submission.
-    if (form.website.trim() !== '') {
-      setSubmitted(true);
-      setForm(initialForm);
-      return;
-    }
-
-    // Timing check: a human takes at least a few seconds to fill this out. An instant
-    // submission is a strong bot signal — quietly reject the same way.
-    if (Date.now() - mountedAt.current < 3000) {
-      setSubmitted(true);
-      setForm(initialForm);
-      return;
-    }
-
-    setSubmitting(true);
-
-    const { error: insertError } = await supabase.from('project_requests').insert({
-      full_name: form.fullName,
-      email: form.email,
-      phone: form.phone || null,
-      institution: form.institution || null,
-      project_type: form.projectType,
-      description: form.description,
-      budget: form.budget || null,
-      deadline: form.deadline || null,
-      duration: form.duration || null,
-      status: 'new',
-    });
-
-    setSubmitting(false);
-
-    if (insertError) {
-      setError(
-        "We couldn't submit your request right now. Please try again, or reach out directly via the Contact page.",
-      );
-      return;
-    }
-
-    setSubmitted(true);
-    setForm(initialForm);
-  };
-
-  if (submitted) {
-    return (
-      <div className="section-sm py-24 text-center">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-accent-50 text-accent-600">
-          <CheckCircle2 className="h-8 w-8" />
-        </div>
-        <h1 className="heading-2 mt-6">Request received!</h1>
-        <p className="mt-4 text-lg text-muted">
-          Thanks for reaching out. Expect a quotation and next steps in your
-          email within 24 hours.
-        </p>
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row justify-center">
-          <Link to="/" className="btn-primary btn-lg">
-            Back to Home
-          </Link>
-          <Link to="/pricing" className="btn-outline btn-lg">
-            Review Pricing
-          </Link>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div>
-      <section className="relative overflow-hidden bg-navy-900 text-white">
-        <div className="absolute inset-0 bg-grid-pattern opacity-30" />
-        <div className="absolute -top-40 right-0 h-96 w-96 rounded-full bg-electric-600/20 blur-3xl" />
-
-        <div className="section relative py-20 lg:py-24 text-center">
-          <h1 className="mt-2 text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+    <div className="bg-slate-950 text-slate-100 min-h-screen py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Page Header */}
+        <div className="text-center max-w-2xl mx-auto mb-12 pt-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>Fast Turnaround</span>
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-4">
             Request Your Project
           </h1>
-          <p className="mt-4 text-lg text-navy-300 max-w-2xl mx-auto">
-            No account needed — tell us about your final-year project idea,
-            requirements and timeline, and we'll reply with a scoped
-            quotation within 24 hours.
+          <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+            No account needed — tell us about your final-year project idea, requirements, and timeline, and we'll reply with a scoped quotation within 24 hours.
           </p>
         </div>
-      </section>
 
-      <section className="bg-navy-50 py-16 lg:py-20">
-        <div className="section-sm">
-          <div className="card p-8">
-            {error && (
-              <div className="mb-6 flex items-start gap-2 rounded-lg bg-error-50 px-4 py-3 text-sm text-error-700">
-                <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0" />
-                <span>{error}</span>
+        {/* Form Container */}
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-10 shadow-2xl">
+          {submitted ? (
+            <div className="text-center py-12">
+              <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-4">
+                <CheckCircle2 className="w-8 h-8" />
               </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Honeypot field — hidden from sighted users and screen readers, but visible to most bots */}
-              <div className="absolute left-[-9999px]" aria-hidden="true">
-                <label htmlFor="website">Leave this field empty</label>
-                <input
-                  id="website"
-                  name="website"
-                  type="text"
-                  tabIndex={-1}
-                  autoComplete="off"
-                  value={form.website}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="grid gap-5 sm:grid-cols-2">
+              <h3 className="text-2xl font-bold text-white mb-2">Request Submitted!</h3>
+              <p className="text-slate-400 text-sm max-w-md mx-auto mb-8">
+                Thank you for submitting your project specifications. We are reviewing your scope and will email you a proposal within 24 hours.
+              </p>
+              <button
+                onClick={() => setSubmitted(false)}
+                className="px-6 py-3 bg-slate-800 border border-slate-700 rounded-xl text-xs font-bold text-white hover:bg-slate-700 transition-all"
+              >
+                Submit Another Request
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              
+              {/* Personal Info Row */}
+              <div className="grid sm:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="fullName" className="label">
+                  <label className="block text-xs font-semibold text-slate-300 mb-2">
                     Full name
                   </label>
                   <div className="relative">
-                    <User className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-navy-300" />
+                    <User className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
                     <input
-                      id="fullName"
-                      name="fullName"
                       type="text"
+                      name="fullName"
                       required
-                      value={form.fullName}
+                      value={formData.fullName}
                       onChange={handleChange}
                       placeholder="Your name"
-                      className="input pl-10"
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-3 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 transition-colors"
                     />
                   </div>
                 </div>
+
                 <div>
-                  <label htmlFor="email" className="label">
+                  <label className="block text-xs font-semibold text-slate-300 mb-2">
                     Email
                   </label>
                   <div className="relative">
-                    <Mail className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-navy-300" />
+                    <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
                     <input
-                      id="email"
-                      name="email"
                       type="email"
+                      name="email"
                       required
-                      value={form.email}
+                      value={formData.email}
                       onChange={handleChange}
                       placeholder="you@example.com"
-                      className="input pl-10"
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-3 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 transition-colors"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="grid gap-5 sm:grid-cols-2">
+              {/* Contact & Institution Row */}
+              <div className="grid sm:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="phone" className="label">
+                  <label className="block text-xs font-semibold text-slate-300 mb-2">
                     Phone
                   </label>
                   <div className="relative">
-                    <Phone className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-navy-300" />
+                    <Phone className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
                     <input
-                      id="phone"
-                      name="phone"
                       type="tel"
-                      value={form.phone}
+                      name="phone"
+                      required
+                      value={formData.phone}
                       onChange={handleChange}
                       placeholder="+254 7XX XXX XXX"
-                      className="input pl-10"
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-3 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 transition-colors"
                     />
                   </div>
                 </div>
+
                 <div>
-                  <label htmlFor="institution" className="label">
+                  <label className="block text-xs font-semibold text-slate-300 mb-2">
                     Institution
                   </label>
                   <div className="relative">
-                    <GraduationCap className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-navy-300" />
+                    <GraduationCap className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
                     <input
-                      id="institution"
-                      name="institution"
                       type="text"
-                      value={form.institution}
+                      name="institution"
+                      value={formData.institution}
                       onChange={handleChange}
                       placeholder="e.g. JKUAT"
-                      className="input pl-10"
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-3 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 transition-colors"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="grid gap-5 sm:grid-cols-2">
+              {/* Project Type & Deadline Row */}
+              <div className="grid sm:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="projectType" className="label">
-                    Project type
+                  <label className="block text-xs font-semibold text-slate-300 mb-2">
+                    Project Type
                   </label>
-                  <select
-                    id="projectType"
-                    name="projectType"
-                    required
-                    value={form.projectType}
-                    onChange={handleChange}
-                    className="input"
-                  >
-                    <option value="" disabled>
-                      Select a type
-                    </option>
-                    {projectTypes.map((type) => (
-                      <option key={type} value={type}>
-                        {type}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="relative">
+                    <Code className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
+                    <select
+                      name="projectType"
+                      value={formData.projectType}
+                      onChange={handleChange}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-3 text-xs text-white focus:outline-none focus:border-blue-500 transition-colors appearance-none"
+                    >
+                      <option value="web">Full-Stack Web App (React / Next.js)</option>
+                      <option value="mobile">Mobile Application (React Native / Flutter)</option>
+                      <option value="database">Database System / Backend API</option>
+                      <option value="ai-ml">AI / Machine Learning Project</option>
+                      <option value="other">Other Software System</option>
+                    </select>
+                  </div>
                 </div>
+
                 <div>
-                  <label htmlFor="deadline" className="label">
-                    Deadline
+                  <label className="block text-xs font-semibold text-slate-300 mb-2">
+                    Target Deadline
                   </label>
-                  <input
-                    id="deadline"
-                    name="deadline"
-                    type="date"
-                    value={form.deadline}
-                    onChange={handleChange}
-                    className="input"
-                  />
+                  <div className="relative">
+                    <Calendar className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
+                    <input
+                      type="date"
+                      name="deadline"
+                      required
+                      value={formData.deadline}
+                      onChange={handleChange}
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-3 text-xs text-white focus:outline-none focus:border-blue-500 transition-colors"
+                    />
+                  </div>
                 </div>
               </div>
 
-              <div className="grid gap-5 sm:grid-cols-2">
-                <div>
-                  <label htmlFor="duration" className="label">
-                    Expected project duration
-                  </label>
-                  <select
-                    id="duration"
-                    name="duration"
-                    value={form.duration}
-                    onChange={handleChange}
-                    className="input"
-                  >
-                    <option value="" disabled>
-                      Select a timeframe
-                    </option>
-                    {durationOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="budget" className="label">
-                    Estimated budget (optional)
-                  </label>
-                  <input
-                    id="budget"
-                    name="budget"
-                    type="text"
-                    value={form.budget}
-                    onChange={handleChange}
-                    placeholder="e.g. KSh 10,000 - 15,000"
-                    className="input"
-                  />
-                </div>
-              </div>
-
+              {/* Description */}
               <div>
-                <label htmlFor="description" className="label">
-                  Project description
+                <label className="block text-xs font-semibold text-slate-300 mb-2">
+                  Project Scope & Requirements
                 </label>
-                <div className="relative">
-                  <FileText className="pointer-events-none absolute left-3 top-3 h-5 w-5 text-navy-300" />
-                  <textarea
-                    id="description"
-                    name="description"
-                    required
-                    rows={6}
-                    value={form.description}
-                    onChange={handleChange}
-                    placeholder="Describe your project idea, requirements, and any specifications you already have..."
-                    className="input pl-10 resize-none"
-                  />
-                </div>
+                <textarea
+                  name="description"
+                  required
+                  rows={5}
+                  value={formData.description}
+                  onChange={handleChange}
+                  placeholder="Describe key features, user roles, preferred tech stack, or specific requirements..."
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 transition-colors resize-none"
+                ></textarea>
               </div>
 
+              {/* Submit Button */}
               <button
                 type="submit"
-                disabled={submitting}
-                className="btn-primary btn-lg w-full sm:w-auto"
+                className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/20 text-xs"
               >
-                <Send className="h-5 w-5" />
-                {submitting ? 'Submitting…' : 'Submit Request'}
+                <Send className="w-4 h-4" />
+                <span>Submit Project Specifications</span>
               </button>
 
-              <p className="text-xs text-navy-400">
-                By submitting this form, you agree to our{' '}
-                <Link to="/privacy" className="link">Privacy Policy</Link> and{' '}
-                <Link to="/terms" className="link">Terms of Service</Link>.
-              </p>
             </form>
-          </div>
+          )}
         </div>
-      </section>
+
+      </div>
     </div>
   );
 }
+
+export const SubmitProject = RequestProject;
+export default RequestProject;

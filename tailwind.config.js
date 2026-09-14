@@ -56,6 +56,26 @@ export default {
           600: '#dc2626',
           700: '#b91c1c',
         },
+        // Warm portal theme (dashboard only) — kept separate from navy/electric
+        // so the public marketing site's palette is untouched.
+        terracotta: {
+          50: '#fdf3ee',
+          100: '#fbe4d8',
+          200: '#f5c4a8',
+          300: '#eea378',
+          400: '#e1794c',
+          500: '#c1502e',
+          600: '#a8431f',
+          700: '#8a3519',
+          800: '#6b2812',
+          900: '#4d1c0c',
+        },
+        cream: {
+          50: '#fefcf8',
+          100: '#fbf3e3',
+          200: '#f5e6c8',
+          300: '#efd9ad',
+        },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
