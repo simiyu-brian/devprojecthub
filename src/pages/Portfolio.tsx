@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { StockWiseDemo } from '@/components/StockWiseDemo';
 import { Sparkles, ExternalLink, Code2 } from 'lucide-react';
 
 interface Project {
@@ -13,11 +14,11 @@ interface Project {
 const projectsData: Project[] = [
   {
     id: '1',
-    title: 'Intelligent Inventory Forecasting System',
+    title: 'StockWise ? Intelligent Inventory Forecasting',
     category: 'AI/ML',
-    tags: ['Python', 'FastAPI', 'React', 'PostgreSQL', 'scikit-learn'],
-    description: 'A machine learning-powered system that predicts inventory demand based on historical sales data, seasonal trends, and market indicators. Includes a real-time dashboard.',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
+    tags: ['React', 'Express', 'FastAPI', 'SQLite', 'Sales Analytics'],
+    description: 'Inventory and business analytics for Kenyan SMEs: record sales, manage stock, audit returns, compare sales performance, and evaluate explainable demand forecasts. Explore the working dashboard with isolated sample data.',
+    image: '/projects/stockwise-mark.svg',
   },
   {
     id: '2',
@@ -63,6 +64,8 @@ const projectsData: Project[] = [
 
 export function Portfolio() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [showStockWise,setShowStockWise]=useState(false);
+  const openStockWise=()=>{setShowStockWise(true);window.setTimeout(()=>document.getElementById('stockwise-demo')?.scrollIntoView({behavior:'smooth',block:'start'}),0);};
 
   const categories = ['All', 'Web', 'Mobile', 'AI/ML', 'Database', 'Analytics'];
 
@@ -117,7 +120,7 @@ export function Portfolio() {
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  className={project.id==='1'?'w-full h-full object-contain p-10 bg-emerald-950 group-hover:scale-105 transition-transform duration-300':'w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'}
                 />
                 <span className="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-blue-400 text-xs font-semibold px-3 py-1 rounded-full border border-slate-800">
                   {project.category}
@@ -154,16 +157,13 @@ export function Portfolio() {
                     <Code2 className="w-4 h-4 text-blue-400" />
                     Verified Architecture
                   </span>
-                  <span className="text-blue-400 group-hover:underline font-semibold flex items-center gap-1">
-                    Details
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </span>
+                  {project.id==='1'?<button type="button" onClick={openStockWise} className="text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-1" aria-expanded={showStockWise} aria-controls="stockwise-demo">Explore demo <ExternalLink className="w-3.5 h-3.5" /></button>:<span className="text-blue-400 group-hover:underline font-semibold flex items-center gap-1">Details<ExternalLink className="w-3.5 h-3.5" /></span>}
                 </div>
               </div>
             </div>
           ))}
         </div>
-
+        {showStockWise&&<StockWiseDemo onClose={()=>setShowStockWise(false)}/>}
       </div>
     </div>
   );

@@ -11,12 +11,12 @@ export interface PortfolioProject {
 export const portfolioProjects: PortfolioProject[] = [
   {
     id: 'inventory-forecast',
-    title: 'Intelligent Inventory Forecasting System',
+    title: 'StockWise ? Intelligent Inventory Forecasting',
     category: 'AI / Data Analytics / Web',
     categoryType: 'ai-ml',
-    technologies: ['Python', 'FastAPI', 'React', 'PostgreSQL', 'scikit-learn'],
-    description: 'A machine learning-powered system that predicts inventory demand based on historical sales data, seasonal trends, and market indicators. Includes a real-time dashboard with forecasting visualizations.',
-    image: 'https://images.pexels.com/photos/3183132/pexels-photo-3183132.jpeg?auto=compress&cs=tinysrgb&w=800',
+    technologies: ['React', 'Express', 'FastAPI', 'SQLite', 'Sales Analytics'],
+    description: 'Inventory and business analytics for Kenyan SMEs with sales receipts, audited returns, warehouse stock, financial reports and explainable statistical demand forecasts. Public demonstration uses isolated sample data.',
+    image: '/projects/stockwise-mark.svg',
   },
   {
     id: 'hospital-management',

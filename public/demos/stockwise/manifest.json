@@ -1,0 +1,16 @@
+{
+  "short_name": "StockWise",
+  "name": "StockWise Inventory Forecasting & Analytics",
+  "icons": [
+    {
+      "src": "stockwise-favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#082B2D",
+  "background_color": "#ffffff"
+}
