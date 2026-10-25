@@ -83,7 +83,7 @@ export function Portfolio() {
         <div className="text-center max-w-3xl mx-auto mb-12 pt-6">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-4">
             <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            <span>Our Work</span>
+            <span>My Work</span>
           </div>
           <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-4">
             Featured Projects

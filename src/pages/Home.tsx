@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowDown, ArrowRight, Mail, Sparkles, Terminal, Pause, Play } from 'lucide-react';
+import { ArrowDown, ArrowRight, Mail, Sparkles, Terminal } from 'lucide-react';
 import { skillCategories } from '@/data/skills';
 
 export function Home() {
   const { hash } = useLocation();
-  const [motion, setMotion] = useState(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const [motion] = useState(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   useEffect(() => {
     if (hash === '#skills') document.getElementById('skills')?.scrollIntoView({ behavior: 'smooth' });
   }, [hash]);
@@ -27,7 +27,6 @@ export function Home() {
           <Link to="/portfolio" className="mt-6 inline-block text-sm font-medium text-blue-300 underline-offset-4 hover:underline">View Projects</Link>
         </div>
         <a href="#skills" aria-label="Explore my skills" className="absolute bottom-12 left-1/2 -translate-x-1/2 rounded-full p-2 text-white/70 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-300"><ArrowDown size={28} /></a>
-        <button onClick={() => setMotion(!motion)} type="button" aria-label={motion ? 'Pause background video' : 'Play background video'} className="absolute bottom-6 right-5 flex items-center gap-2 rounded-full border border-slate-700 bg-slate-950/70 px-3 py-2 text-xs text-slate-300 hover:text-white">{motion ? <Pause size={13} /> : <Play size={13} />}<span className="hidden sm:inline">{motion ? 'Pause motion' : 'Play motion'}</span></button>
       </section>
       <section id="skills" aria-labelledby="skills-title" className="mx-auto max-w-7xl scroll-mt-8 px-5 py-20 sm:px-8">
         <p className="mb-3 text-center text-xs font-semibold uppercase tracking-[0.2em] text-cyan-400">What I work with</p>

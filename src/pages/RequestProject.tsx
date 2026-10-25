@@ -51,7 +51,7 @@ export function RequestProject() {
             Request Your Project
           </h1>
           <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-            No account needed — tell us about your final-year project idea, requirements, and timeline, and we'll reply with a scoped quotation within 24 hours.
+            No account needed — tell me about your final-year project idea, requirements, and timeline, and I'll reply with a scoped quotation within 24 hours.
           </p>
         </div>
 
@@ -64,7 +64,7 @@ export function RequestProject() {
               </div>
               <h3 className="text-2xl font-bold text-white mb-2">Request Submitted!</h3>
               <p className="text-slate-400 text-sm max-w-md mx-auto mb-8">
-                Thank you for submitting your project specifications. We are reviewing your scope and will email you a proposal within 24 hours.
+                Thank you for submitting your project specifications. I am reviewing your scope and will email you a proposal within 24 hours.
               </p>
               <button
                 onClick={() => setSubmitted(false)}
