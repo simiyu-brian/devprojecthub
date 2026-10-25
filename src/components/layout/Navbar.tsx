@@ -1,114 +1,47 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Rocket, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import Logo from '../ui/Logo';
+
+const links = [
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about' },
+  { name: 'Skills', href: '/#skills' },
+  { name: 'Services', href: '/services' },
+  { name: 'Projects', href: '/portfolio' },
+  { name: 'Contact', href: '/contact' },
+];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-
-  const navLinks = [
-    { name: 'Services', href: '/services' },
-    { name: 'Portfolio', href: '/portfolio' },
-    { name: 'How It Works', href: '/how-it-works' },
-    { name: 'Pricing', href: '/pricing' },
-    { name: 'About', href: '/about' },
-    { name: 'FAQ', href: '/faq' },
-  ];
+  const home = location.pathname === '/';
+  useEffect(() => { setIsOpen(false); }, [location]);
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-slate-900/80 border-b border-slate-800/80 text-white transition-all">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          {/* Brand Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="p-2.5 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 shadow-lg shadow-blue-500/25 group-hover:scale-105 transition-transform">
-              <Logo className="w-6 h-6 text-white" />
-            </div>
-            <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
-              ProjectHub
-            </span>
-          </Link>
-
-          {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center space-x-1">
-            {navLinks.map((link) => {
-              const isActive = location.pathname === link.href;
-              return (
-                <Link
-                  key={link.name}
-                  to={link.href}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    isActive
-                      ? 'text-blue-400 bg-blue-500/10 border border-blue-500/20'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* CTA Action Buttons */}
-          <div className="hidden md:flex items-center gap-3">
-            <Link
-              to="/login"
-              className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors"
-            >
-              Sign In
-            </Link>
-            <Link
-              to="/request-project"
-              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-xl shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/35 hover:scale-[1.02] active:scale-[0.98] transition-all"
-            >
-              <span>Submit Project</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white focus:outline-none"
-            >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Menu Dropdown */}
-      {isOpen && (
-        <div className="md:hidden border-t border-slate-800 bg-slate-900/95 px-4 pt-3 pb-6 space-y-2">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.href}
-              onClick={() => setIsOpen(false)}
-              className="block px-4 py-2.5 rounded-lg text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800"
-            >
+    <header className={`absolute inset-x-0 top-0 z-50 text-white ${home ? 'bg-slate-950/40 backdrop-blur-md' : 'bg-slate-950 border-b border-slate-800'}`}>
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-5 sm:px-8">
+        <Logo variant="light" className="shrink-0" />
+        <nav aria-label="Main navigation" className="hidden items-center gap-5 lg:flex xl:gap-8">
+          {links.map((link) => (
+            <Link key={link.name} to={link.href}
+              aria-current={location.pathname + location.hash === link.href ? 'page' : undefined}
+              className="py-2 text-sm font-medium text-slate-200 transition-colors hover:text-cyan-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-300 aria-[current=page]:text-white">
               {link.name}
             </Link>
           ))}
-          <div className="pt-4 border-t border-slate-800 flex flex-col gap-2">
-            <Link
-              to="/login"
-              onClick={() => setIsOpen(false)}
-              className="w-full text-center px-4 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800"
-            >
-              Sign In
-            </Link>
-            <Link
-              to="/request-project"
-              onClick={() => setIsOpen(false)}
-              className="w-full text-center px-4 py-2.5 rounded-lg text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 shadow-md"
-            >
-              Submit Project
-            </Link>
-          </div>
-        </div>
+          <Link to="/login" className="border-l border-slate-700 pl-5 text-sm text-slate-300 hover:text-white">Sign In</Link>
+        </nav>
+        <button type="button" onClick={() => setIsOpen(!isOpen)} aria-label={isOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={isOpen} aria-controls="mobile-navigation"
+          className="rounded-md p-2 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-300 lg:hidden">
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+      {isOpen && (
+        <nav id="mobile-navigation" aria-label="Mobile navigation" className="border-t border-white/10 bg-slate-950/95 px-5 py-4 shadow-xl backdrop-blur-md lg:hidden">
+          {links.map((link) => <Link key={link.name} to={link.href} onClick={() => setIsOpen(false)} className="block rounded-md px-3 py-3 text-sm text-slate-200 hover:bg-white/5 hover:text-cyan-300">{link.name}</Link>)}
+          <div className="mt-3 grid grid-cols-2 gap-3 border-t border-slate-800 pt-4"><Link to="/login" className="rounded-lg border border-slate-700 px-4 py-3 text-center text-sm">Sign In</Link><Link to="/request-project" className="rounded-lg bg-blue-600 px-4 py-3 text-center text-sm font-semibold">Submit Project</Link></div>
+        </nav>
       )}
     </header>
   );
