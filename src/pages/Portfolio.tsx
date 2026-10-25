@@ -9,6 +9,7 @@ interface Project {
   tags: string[];
   description: string;
   image: string;
+  demoUrl?: string;
 }
 
 const projectsData: Project[] = [
@@ -38,11 +39,12 @@ const projectsData: Project[] = [
   },
   {
     id: '4',
-    title: 'Cross-Platform Campus Companion App',
-    category: 'Mobile',
-    tags: ['React Native', 'Expo', 'Firebase', 'Tailwind CSS'],
-    description: 'A mobile application for students featuring real-time timetables, assignment reminders, campus maps, and instant peer notification sync.',
-    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80',
+    title: 'StayBooker - Hotel Booking Platform',
+    category: 'Web',
+    tags: ['React', 'TypeScript', 'Supabase', 'Tailwind CSS'],
+    description: 'A hotel booking platform for discovering rooms, exploring amenities, and managing reservations, with user accounts and an admin dashboard for hotels, rooms, and bookings.',
+    image: '/projects/staybooker-cover.jpg',
+    demoUrl: 'https://taupe-gnome-47d38c.netlify.app/',
   },
   {
     id: '5',
@@ -67,7 +69,7 @@ export function Portfolio() {
   const [showStockWise,setShowStockWise]=useState(false);
   const openStockWise=()=>{setShowStockWise(true);window.setTimeout(()=>document.getElementById('stockwise-demo')?.scrollIntoView({behavior:'smooth',block:'start'}),0);};
 
-  const categories = ['All', 'Web', 'Mobile', 'AI/ML', 'Database', 'Analytics'];
+  const categories = ['All', ...new Set(projectsData.map((project) => project.category))];
 
   const filteredProjects = selectedCategory === 'All'
     ? projectsData
@@ -159,7 +161,7 @@ export function Portfolio() {
                     <Code2 className="w-4 h-4 text-blue-400" />
                     Verified Architecture
                   </span>
-                  {project.id==='1'?<button type="button" onClick={openStockWise} className="text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-1" aria-expanded={showStockWise} aria-controls="stockwise-demo">Explore demo <ExternalLink className="w-3.5 h-3.5" /></button>:<span className="text-blue-400 group-hover:underline font-semibold flex items-center gap-1">Details<ExternalLink className="w-3.5 h-3.5" /></span>}
+                  {project.id==='1'?<button type="button" onClick={openStockWise} className="text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-1" aria-expanded={showStockWise} aria-controls="stockwise-demo">Explore demo <ExternalLink className="w-3.5 h-3.5" /></button>:project.demoUrl?<a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-1" aria-label={`Explore ${project.title} demo (opens in a new tab)`}>Explore demo <ExternalLink className="w-3.5 h-3.5" /></a>:<span className="text-blue-400 group-hover:underline font-semibold flex items-center gap-1">Details<ExternalLink className="w-3.5 h-3.5" /></span>}
                 </div>
               </div>
             </div>
