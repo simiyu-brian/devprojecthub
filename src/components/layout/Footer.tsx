@@ -55,9 +55,9 @@ export function Footer() {
               Have a project idea? Let's turn it into a working system.
             </p>
             <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-              <Link to="/request-project" className="btn-primary btn-sm w-full sm:w-auto">
-                Request Your Project
-              </Link>
+              <a href="mailto:bsimiyu698@gmail.com" className="btn-primary btn-sm w-full sm:w-auto">
+                Email Me
+              </a>
               <Link to="/pricing" className="btn btn-sm border border-navy-700 text-navy-200 hover:bg-navy-800 w-full sm:w-auto">
                 View Pricing
               </Link>

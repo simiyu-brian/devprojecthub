@@ -40,7 +40,7 @@ export default function Navbar() {
       {isOpen && (
         <nav id="mobile-navigation" aria-label="Mobile navigation" className="border-t border-white/10 bg-slate-950/95 px-5 py-4 shadow-xl backdrop-blur-md lg:hidden">
           {links.map((link) => <Link key={link.name} to={link.href} onClick={() => setIsOpen(false)} className="block rounded-md px-3 py-3 text-sm text-slate-200 hover:bg-white/5 hover:text-cyan-300">{link.name}</Link>)}
-          <div className="mt-3 grid grid-cols-2 gap-3 border-t border-slate-800 pt-4"><Link to="/login" className="rounded-lg border border-slate-700 px-4 py-3 text-center text-sm">Sign In</Link><Link to="/request-project" className="rounded-lg bg-blue-600 px-4 py-3 text-center text-sm font-semibold">Submit Project</Link></div>
+          <div className="mt-3 grid grid-cols-2 gap-3 border-t border-slate-800 pt-4"><Link to="/login" className="rounded-lg border border-slate-700 px-4 py-3 text-center text-sm">Sign In</Link><a href="mailto:bsimiyu698@gmail.com" className="rounded-lg bg-blue-600 px-4 py-3 text-center text-sm font-semibold">Email Me</a></div>
         </nav>
       )}
     </header>
