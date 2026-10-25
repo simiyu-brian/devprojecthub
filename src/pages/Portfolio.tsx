@@ -14,11 +14,11 @@ interface Project {
 const projectsData: Project[] = [
   {
     id: '1',
-    title: 'StockWise ? Intelligent Inventory Forecasting',
+    title: 'StockWise - Intelligent Inventory Forecasting',
     category: 'AI/ML',
     tags: ['React', 'Express', 'FastAPI', 'SQLite', 'Sales Analytics'],
     description: 'Inventory and business analytics for Kenyan SMEs: record sales, manage stock, audit returns, compare sales performance, and evaluate explainable demand forecasts. Explore the working dashboard with isolated sample data.',
-    image: '/projects/stockwise-mark.svg',
+    image: '/projects/stockwise-cover.png',
   },
   {
     id: '2',
@@ -120,7 +120,9 @@ export function Portfolio() {
                 <img
                   src={project.image}
                   alt={project.title}
-                  className={project.id==='1'?'w-full h-full object-contain p-10 bg-emerald-950 group-hover:scale-105 transition-transform duration-300':'w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'}
+                  loading="lazy"
+                  decoding="async"
+                  className={project.id==='1'?'w-full h-full object-cover bg-emerald-950 group-hover:scale-105 transition-transform duration-300':'w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'}
                 />
                 <span className="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-blue-400 text-xs font-semibold px-3 py-1 rounded-full border border-slate-800">
                   {project.category}
